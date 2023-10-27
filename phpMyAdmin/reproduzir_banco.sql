@@ -84,6 +84,7 @@ CREATE TABLE deposito (
 CREATE TABLE armazena (
     codigo_id  INT  NOT NULL,
     livro_id   INT  NOT NULL,
+    numero     INT  NOT NULL,
     CONSTRAINT codigo_id_livro_id_PK PRIMARY KEY (codigo_id, livro_id),
     CONSTRAINT armazena_FK1 FOREIGN KEY (codigo_id) REFERENCES deposito(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT armazena_FK2 FOREIGN KEY (livro_id) REFERENCES livro(livro_id) ON DELETE CASCADE ON UPDATE CASCADE
