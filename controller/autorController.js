@@ -1,4 +1,4 @@
-const ModeloAutor = require('./model');
+const ModeloAutor = require('../model/autorModel');
 
 class ControladorAutor{
     async criarAutor(req, res){

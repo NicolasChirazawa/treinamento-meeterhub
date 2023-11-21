@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloEscrito {
-    constructor(){
-        this.pool = mysql.createPool({
-            host: '127.0.0.1',
-            user: 'root',
-            password: '',
-            database: 'bancodadosteste'
-        });
-    }
 
     async criarEscrito(escrito_por){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO escrito_por (id_autor, id_livro) VALUES (?, ?)', [escrito_por.id_autor, escrito_por.id_livro,]
@@ -23,7 +15,7 @@ class ModeloEscrito {
     }
 
     async obterTodosEscrito(){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM escrito_por'
@@ -35,7 +27,7 @@ class ModeloEscrito {
     }
 
     async obterEscritoPorId(id_escrito_por) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registro] = await connection.query(
                 'SELECT * FROM escrito_por WHERE id_escrito_por = ?', [id_escrito_por]
@@ -47,7 +39,7 @@ class ModeloEscrito {
     }
 
     async atualizarEscrito(id_escrito_por, escrito_por) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE escrito_por SET id_autor=? id_livro=? WHERE id_escrito_por = ?', [escrito_por.id_autor, escrito_por.id_livro, id_escrito_por]
@@ -59,7 +51,7 @@ class ModeloEscrito {
     }
 
     async deletarEscrito(id_escrito_por) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM escrito_por WHERE id_escrito_por = ?',     [id_escrito_por]

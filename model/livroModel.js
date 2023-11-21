@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloLivro{
-    constructor(){
-        this.pool = mysql.createPool({
-            host:'127.0.0.1',
-            user: 'root',
-            password:'',
-            database:'bancodadosteste',
-        });
-    }
 
     async criarLivro(livro) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO livros (id_editora, isbn, titulo, ano, preco) VALUES(?, ?, ?, ?, ?)',
@@ -24,7 +16,7 @@ class ModeloLivro{
     }
 
     async obterTodosLivros() {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM livros'
@@ -37,7 +29,7 @@ class ModeloLivro{
     }
 
     async obterLivroPorId(id_livro) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM livros WHERE id_livro = ?', [id_livro]);
@@ -49,7 +41,7 @@ class ModeloLivro{
     }
 
     async atualizerLivro(id_livro, livro) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE livros SET id_editora = ?, isbn = ?, titulo = ?, ano = ?, preco = ? WHERE id_livro = ?',
@@ -62,7 +54,7 @@ class ModeloLivro{
     }
 
     async excluirLivro(id_livro) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM livros WHERE id_livro = ?',

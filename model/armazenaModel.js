@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloArmazena {
-    constructor(){
-        this.pool = mysql.createPool({
-            host: '127.0.0.1',
-            user: 'root',
-            password: '',
-            database: 'bancodadosteste'
-        });
-    }
 
     async criarArmazena(armazena){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO autores (id_codigo, id_livro, codigo) VALUES (?, ?, ?)', [armazena.id_codigo, armazena.id_livro, armazena.numero]
@@ -23,7 +15,7 @@ class ModeloArmazena {
     }
 
     async obterTodosArmazenar(){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM autores'
@@ -35,7 +27,7 @@ class ModeloArmazena {
     }
 
     async obterArmazenaPorId(id_armazena) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registro] = await connection.query(
                 'SELECT * FROM armazena WHERE id_armazena = ?', [id_armazena]
@@ -47,7 +39,7 @@ class ModeloArmazena {
     }
 
     async atualizarArmazena(id_armazena, armazena) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE armazena SET id_codigo=? id_livro=? numero=?  WHERE id_autor = ?', [armazena.id_codigo, armazena.id_livro, armazena.numero, id_armazena]
@@ -59,7 +51,7 @@ class ModeloArmazena {
     }
 
     async deletarArmazena(id_armazena) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM armazena WHERE id_armazena = ?',     [id_armazena]

@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloCliente{
-    constructor(){
-        this.pool = mysql.createPool({
-            host:'127.0.0.1',
-            user: 'root',
-            password:'',
-            database:'bancodadosteste',
-        });
-    }
 
     async criarCliente(cliente) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO clientes (nome, endereco, telefone) VALUES(?, ?, ?)',
@@ -24,7 +16,7 @@ class ModeloCliente{
     }
 
     async obterTodosClientes() {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM clientes'
@@ -37,7 +29,7 @@ class ModeloCliente{
     }
 
     async obterClientePorId(id_cliente) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM clientes WHERE id_cliente = ?', [id_cliente]);
@@ -49,7 +41,7 @@ class ModeloCliente{
     }
 
     async atualizarCliente(id_cliente, cliente) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE clientes SET nome = ?, endereco = ?, telefone = ? WHERE id_cliente = ?',
@@ -62,7 +54,7 @@ class ModeloCliente{
     }
 
     async excluirCliente(id_cliente) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM clientes WHERE id_cliente = ?',

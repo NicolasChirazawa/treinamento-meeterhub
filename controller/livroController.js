@@ -1,4 +1,4 @@
-const ModeloLivro = require('./model.js');
+const ModeloLivro = require('../livro/livroModel.js');
 
 class ControladorLivro{
     async criarLivro( req, res ){

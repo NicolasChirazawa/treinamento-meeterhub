@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloEditora{
-    constructor(){
-        this.pool = mysql.createPool({
-            host:'127.0.0.1',
-            user: 'root',
-            password:'',
-            database:'bancodadosteste',
-        });
-    }
 
     async criarEditora(editora) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO editoras (nome, endereco, telefone, url) VALUES(?, ?, ?, ?)',
@@ -24,7 +16,7 @@ class ModeloEditora{
     }
 
     async obterTodasEditoras() {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM editoras'
@@ -37,7 +29,7 @@ class ModeloEditora{
     }
 
     async obterEditoraPorId(id_editora) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM editoras WHERE id_editora = ?', [id_editora]);
@@ -49,7 +41,7 @@ class ModeloEditora{
     }
 
     async atualizerEditora(id_editora, editora) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE editoras SET nome = ?, endereco = ?, telefone = ?, url = ? WHERE id_editora = ?',
@@ -62,7 +54,7 @@ class ModeloEditora{
     }
 
     async excluirEditora(id_editora) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM editoras WHERE id_editora = ?',

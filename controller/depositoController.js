@@ -1,4 +1,4 @@
-const ModeloDeposito = require('./model.js');
+const ModeloDeposito = require('../model/depositoModel.js');
 
 class controladorDeposito{
     async criarDeposito( req, res ){

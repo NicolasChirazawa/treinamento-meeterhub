@@ -1,4 +1,4 @@
-const ModeloItemCarrinho = require('./model.js');
+const ModeloItemCarrinho = require('../model/itemCarrinhoModel.js');
 
 class controladorItemCarrinho{
     async criarItemCarrinho( req, res ){

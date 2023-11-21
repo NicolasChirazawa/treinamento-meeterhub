@@ -1,4 +1,4 @@
-const ModeloEscrito = require('./model');
+const ModeloEscrito = require('../escrito_por/model');
 
 class ControladorEscrito{
     async criarEscrito(req, res){

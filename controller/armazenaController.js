@@ -1,4 +1,4 @@
-const ModeloArmazena = require('./model');
+const ModeloArmazena = require('../model/armazenaModel');
 
 class ControladorArmazena{
     async criarArmazena(req, res){

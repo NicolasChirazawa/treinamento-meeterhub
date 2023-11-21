@@ -1,17 +1,9 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloItemCarrinho {
-    constructor(){
-        this.pool = mysql.createPool({
-            host:'127.0.0.1',
-            user: 'root',
-            password:'',
-            database:'bancodadosteste',
-        });
-    }
 
     async criarItemCarrinho(item_carrinho) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO item_carrinho (id_carrinho, id_livro, numero) VALUES (?, ?, ?)',
@@ -24,7 +16,7 @@ class ModeloItemCarrinho {
     }
 
     async obterTodosItemCarrinho() {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM item_carrinho'
@@ -37,7 +29,7 @@ class ModeloItemCarrinho {
     }
 
     async obterItemCarrinhoPorId(id_item_carrinho) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM item_carrinho WHERE id_item_carrinho = ?', [id_item_carrinho]);
@@ -49,7 +41,7 @@ class ModeloItemCarrinho {
     }
 
     async atualizerItemCarrinho(id_item_carrinho, item_carrinho) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE item_carrinho SET id_carrinho = ?, id_livro = ?, numero = ? WHERE id_item_carrinho = ?',
@@ -62,7 +54,7 @@ class ModeloItemCarrinho {
     }
 
     async excluirItemCarrinho(id_item_carrinho) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM item_carrinho WHERE id_item_carrinho = ?',

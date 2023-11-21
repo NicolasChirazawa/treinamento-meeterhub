@@ -1,17 +1,10 @@
-const mysql = require('mysql2/promise');
+const pool = require('../pool');
 
 class ModeloAutor {
-    constructor(){
-        this.pool = mysql.createPool({
-            host: '127.0.0.1',
-            user: 'root',
-            password: '',
-            database: 'bancodadosteste'
-        });
-    }
+
 
     async criarAutor(autor){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [resultado] = await connection.query(
                 'INSERT INTO autores (nome, endereco, url) VALUES (?, ?, ?)', [autor.nome, autor.endereco, autor.url]
@@ -23,7 +16,7 @@ class ModeloAutor {
     }
 
     async obterTodosAutores(){
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registros] = await connection.query(
                 'SELECT * FROM autores'
@@ -35,7 +28,7 @@ class ModeloAutor {
     }
 
     async obterAutor(id_autor) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             const [registro] = await connection.query(
                 'SELECT * FROM autores WHERE id_autor = ?', [id_autor]
@@ -47,7 +40,7 @@ class ModeloAutor {
     }
 
     async atualizarAutor(id_autor, autor) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'UPDATE autores * FROM autores set nome=? endereco=? url=?  WHERE id_autor = ?', [autor.nome, autor.endereco, autor.url, id_autor]
@@ -59,7 +52,7 @@ class ModeloAutor {
     }
 
     async deletarAutor(id_autor) {
-        const connection = await this.pool.getConnection();
+        const connection = await pool.getConnection();
         try{
             await connection.query(
                 'DELETE FROM autores WHERE id_autor = ?', [id_autor]

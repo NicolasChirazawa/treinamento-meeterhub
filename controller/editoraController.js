@@ -1,4 +1,4 @@
-const ModeloEditora = require('./model.js');
+const ModeloEditora = require('../model/editoraModel.js');
 
 class ControladorEditora{
     async criarEditora( req, res ){
